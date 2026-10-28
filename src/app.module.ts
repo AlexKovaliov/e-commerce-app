@@ -20,7 +20,7 @@ import { ProductsModule } from './products/products.module';
         username: configService.get<string>('POSTGRES_USER'),
         password: configService.get<string>('POSTGRES_PASSWORD'),
         database: configService.get<string>('POSTGRES_DB'),
-        entities: [],
+        autoLoadEntities: true,
         synchronize: true,
       }),
     }),

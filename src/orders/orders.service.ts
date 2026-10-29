@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { Order } from './entities/order.entity';
 import { Product } from '../products/entities/product.entity';
+import { PaginationService } from '../common/pagination/pagination.service';
 
 @Injectable()
 export class OrdersService {
@@ -12,6 +13,7 @@ export class OrdersService {
     private readonly orderRepository: Repository<Order>,
     @InjectRepository(Product)
     private readonly productRepository: Repository<Product>,
+    private readonly paginationService: PaginationService,
   ) {}
 
   async create(createOrderDto: CreateOrderDto) {
@@ -50,6 +52,13 @@ export class OrdersService {
   }
 
   async getOrders(page = 1, limit = 10) {
+    const totalItems = await this.orderRepository.count();
+    const meta = this.paginationService.getPaginationMeta(
+      page,
+      limit,
+      totalItems,
+    );
+
     const orders = await this.orderRepository.find({
       skip: (page - 1) * limit,
       take: limit,
@@ -69,6 +78,7 @@ export class OrdersService {
 
     return {
       orders,
+      meta,
     };
   }
 

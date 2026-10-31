@@ -5,6 +5,7 @@ import { ProductsModule } from './products/products.module';
 import { OrdersModule } from './orders/orders.module';
 import { CommonModule } from './common/common.module';
 import { ReviewsModule } from './reviews/reviews.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { ReviewsModule } from './reviews/reviews.module';
     OrdersModule,
     CommonModule,
     ReviewsModule,
+    UsersModule,
   ],
   controllers: [],
   providers: [],

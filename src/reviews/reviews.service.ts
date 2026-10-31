@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { CreateReviewDto } from './dto/create-review.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Order } from '../orders/entities/order.entity';
 import { Repository } from 'typeorm';
 import { Product } from '../products/entities/product.entity';
 import { PaginationService } from '../common/pagination/pagination.service';
@@ -10,10 +9,9 @@ import { Review } from './entities/review.entity';
 @Injectable()
 export class ReviewsService {
   constructor(
-    @InjectRepository(Order)
-    private readonly orderRepository: Repository<Order>,
     @InjectRepository(Product)
     private readonly productRepository: Repository<Product>,
+    @InjectRepository(Review)
     private readonly reviewRepository: Repository<Review>,
     private readonly paginationService: PaginationService,
   ) {}
@@ -34,16 +32,16 @@ export class ReviewsService {
         };
       }
 
-      const order = this.reviewRepository.create({
+      const review = this.reviewRepository.create({
         product,
         rating,
         comment,
       });
-      await this.reviewRepository.save(order);
+      await this.reviewRepository.save(review);
 
       return {
         message: 'Review created successfully',
-        order,
+        review,
       };
     } catch (error) {
       return {

@@ -1,5 +1,6 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Product } from '../../products/entities/product.entity';
+import { User } from '../../users/entities/user.entity';
 
 export enum OrderStatus {
   PENDING = 'PENDING',
@@ -17,8 +18,8 @@ export class Order {
   @Column()
   quantity: number;
 
-  // @ManyToOne(() => User, (user) => user.orders)
-  // customer: User;
+  @ManyToOne(() => User, (user) => user.orders)
+  customer: User;
 
   @Column({ default: OrderStatus.PENDING })
   status: OrderStatus;
